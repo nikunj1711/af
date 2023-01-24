@@ -1,0 +1,45 @@
+notes model
+
+
+class notes(
+    var note_id:Int?,
+    var note_title:String,
+    var note_detail:String
+)
+
+
+
+NotesAdapter 
+
+
+
+
+class NotesAdapter(var notes : ArrayList<notes>, var context: Context) :
+    RecyclerView.Adapter<NotesAdapter.NotesHolder>(){
+
+    class NotesHolder(view : View) : RecyclerView.ViewHolder(view){
+        var txtTitle: TextView = view.findViewById(R.id.txtTitle)
+        var txtDetail: TextView = view.findViewById(R.id.txtDescription)
+        var rootGroup: LinearLayout = view.findViewById(R.id.rootGroup)
+    }
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NotesHolder {
+
+        var view = LayoutInflater.from(parent.context).inflate(R.layout.notes_exam_iteam, parent,false)
+        return NotesHolder(view)
+
+
+    }
+
+    override fun onBindViewHolder(holder: NotesHolder, position: Int) {
+
+        holder.txtTitle.setText(notes[position].note_title.toString())
+        holder.txtDetail.setText(notes[position].note_detail.toString())
+
+    }
+
+    override fun getItemCount(): Int {
+        return notes.size
+
+    }
+}

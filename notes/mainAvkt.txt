@@ -1,0 +1,42 @@
+ 
+class MainActivity : AppCompatActivity() {
+
+    lateinit var fab:FloatingActionButton
+    lateinit var recyclerView1: RecyclerView
+
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_main)
+
+         fab = findViewById(R.id.fab)
+         recyclerView1 = findViewById(R.id.recyclerView1)
+         viewNotes()
+    }
+
+    override fun onStart() {
+        super.onStart()
+
+        fab.setOnClickListener {
+            startActivity(Intent(this,MainActivity2::class.java))
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        viewNotes()
+    }
+
+    fun viewNotes() {
+        var notesList = ArrayList<notes>()
+
+        var dbHandler = Dbhandler(this)
+        notesList = dbHandler.readNotes()
+
+        recyclerView1.adapter = NotesAdapter(notesList , this)
+
+
+    }
+
+
+}

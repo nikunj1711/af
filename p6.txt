@@ -1,0 +1,92 @@
+===========================    MainActivity.kt  =========================== 
+
+
+class MainActivity : AppCompatActivity() {
+
+    lateinit var username:EditText
+    lateinit var password:EditText
+    lateinit var btn_login:Button
+
+
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_main)
+
+        username = findViewById(R.id.username)
+        password = findViewById(R.id.password)
+        btn_login = findViewById(R.id.btn_login)
+
+
+    }
+
+
+    override fun onStart() {
+        super.onStart()
+
+        btn_login.setOnClickListener {
+            if (username.text.toString()=="nikunj123" && password.text.toString()=="123456"){
+
+                var sharepref = this.getSharedPreferences("com.example.p6",Context.MODE_PRIVATE)
+                var edtSharepref = sharepref.edit()
+                edtSharepref.putString("username","nikunj123")
+                edtSharepref.apply()
+
+                startActivity(Intent(this,Activity_home::class.java))
+            }
+        }
+    }
+}
+
+
+
+===========================    MainActivity2.kt  =========================== 
+
+
+class Activity_home : AppCompatActivity() {
+
+
+   lateinit var NameUser:TextView
+   lateinit var btn_logout:Button
+   lateinit var sharepref:SharedPreferences
+
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_home)
+
+        NameUser = findViewById(R.id.NameUser)
+        btn_logout = findViewById(R.id.btn_logout)
+
+
+
+
+
+
+    }
+
+    override fun onStart() {
+        super.onStart()
+
+
+        sharepref = this.getSharedPreferences("com.example.p6", Context.MODE_PRIVATE)
+
+        var uname = sharepref.getString("username",null)
+        if (uname==null) {
+            startActivity(Intent(this,MainActivity::class.java))
+             
+        }else{
+            NameUser.setText(uname)
+        }
+
+
+
+        btn_logout.setOnClickListener {
+            var edit:SharedPreferences.Editor = sharepref.edit()
+            edit.clear()
+            edit.commit()
+            startActivity(Intent(this,MainActivity::class.java))
+            
+        }
+    }
+}

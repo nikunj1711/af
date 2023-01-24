@@ -1,0 +1,60 @@
+manifest=>
+
+    <uses-permission android:name="android.permission.READ_CONTACTS"/>
+    <uses-permission android:name="android.permission.WRITE_CONTACTS"/>
+
+
+================================= MainActivity.kt =================================  
+class MainActivity : AppCompatActivity() {
+
+    lateinit var btn: Button
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_main)
+
+        btn = findViewById(R.id.btn)
+    }
+
+
+    @SuppressLint("Range")
+    override fun onStart() {
+        super.onStart()
+
+        btn.setOnClickListener {
+            if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_CONTACTS) ==
+                PackageManager.PERMISSION_DENIED
+            ) {
+                ActivityCompat.requestPermissions(
+                    this,
+                    arrayOf(Manifest.permission.READ_CONTACTS), 0
+                )
+            } else {
+                var contentResolver = contentResolver
+                var uri = ContactsContract.CommonDataKinds.Phone.CONTENT_URI
+                var cursor = contentResolver.query(uri, null, null, null, null)
+
+                if (cursor!!.count > 0) {
+                    while (cursor.moveToNext()) {
+                        var contactName = cursor.getString(
+                            cursor.getColumnIndex
+                                (ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME)
+                        );
+
+                        var contactNumber = cursor.getString(
+                            cursor.getColumnIndex
+                                (ContactsContract.CommonDataKinds.Phone.NUMBER)
+                        );
+
+                        Log.i(
+                            "CONTACT_PROVIDER_DEMO",
+                            "Contact Name : " + contactName + "Number : " + contactNumber
+                        );
+
+                    }
+                }
+            }
+        }
+
+    }
+}

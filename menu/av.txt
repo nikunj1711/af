@@ -1,0 +1,91 @@
+package com.example.menubar
+
+import androidx.appcompat.app.AppCompatActivity
+import android.os.Bundle
+import android.view.ContextMenu
+import android.view.Menu
+import android.view.MenuItem
+import android.view.View
+import android.widget.RelativeLayout
+import android.widget.TextView
+import android.widget.Toast
+
+
+class Activity2 : AppCompatActivity() {
+
+    lateinit var contextMenu:TextView
+    lateinit var layoutbg:RelativeLayout
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_2)
+
+        contextMenu = findViewById(R.id.contextMenu)
+        layoutbg = findViewById(R.id.layoutbg)
+
+        registerForContextMenu(contextMenu)
+
+    }
+
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+
+        menuInflater.inflate(R.menu.opmenu,menu)
+
+        return super.onCreateOptionsMenu(menu)
+    }
+
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+
+        when(item.itemId)
+        {
+            R.id.serch -> Toast.makeText(this,"serch clicked", Toast.LENGTH_LONG).show()
+             R.id.notification -> Toast.makeText(this,"notification clicked", Toast.LENGTH_LONG).show()
+             R.id.ac -> Toast.makeText(this,"Account clicked", Toast.LENGTH_LONG).show()
+             R.id.setting -> Toast.makeText(this,"setting clicked", Toast.LENGTH_LONG).show()
+           // R.id.edtprofile -> Toast.makeText(this,"Peofile clicked", Toast.LENGTH_LONG).show()
+            R.id.share_app -> Toast.makeText(this,"Shareapp clicked", Toast.LENGTH_LONG).show()
+
+        }
+
+        return true
+    }
+
+
+    override fun onCreateContextMenu(
+        menu: ContextMenu?,
+        v: View?,
+        menuInfo: ContextMenu.ContextMenuInfo?
+    ) {
+        super.onCreateContextMenu(menu, v, menuInfo)
+        menuInflater.inflate(R.menu.conmenu,menu)
+    }
+
+
+
+    override fun onContextItemSelected(item: MenuItem): Boolean {
+        when(item.itemId){
+            R.id.Red -> {
+                layoutbg.setBackgroundResource(R.color.red)
+            }
+            R.id.yellow -> {
+                layoutbg.setBackgroundResource(R.color.yellow)
+            }
+            R.id.Pink -> {
+                layoutbg.setBackgroundResource(R.color.pink)
+            }
+            R.id.Orange -> {
+                layoutbg.setBackgroundResource(R.color.org)
+            }
+            R.id.green -> {
+                layoutbg.setBackgroundResource(R.color.green)
+            }
+            R.id.Blue -> {
+                layoutbg.setBackgroundResource(R.color.blue)
+            }
+        }
+        return super.onContextItemSelected(item)
+    }
+
+}

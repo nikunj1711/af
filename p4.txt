@@ -1,0 +1,99 @@
+package com.example.p4
+
+import android.annotation.SuppressLint
+import android.content.Intent
+import android.net.Uri
+import androidx.appcompat.app.AppCompatActivity
+import android.os.Bundle
+import android.widget.Button
+import android.widget.Toast
+
+class MainActivity : AppCompatActivity() {
+
+        lateinit var phone_call:Button
+        lateinit var send_mail:Button
+        lateinit var launch_web:Button
+        lateinit var sms_btn:Button
+        lateinit var next_activity:Button
+
+
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_main)
+
+
+        phone_call = findViewById(R.id.phone_call)
+        send_mail =  findViewById(R.id.send_mail)
+        launch_web =  findViewById(R.id.launch_web)
+        sms_btn =  findViewById(R.id.sms_btn)
+        next_activity =  findViewById(R.id.next_activity)
+
+    }
+
+
+
+    override fun onStart() {
+        super.onStart()
+
+        phone_call.setOnClickListener {
+            val callIntent  = Intent(Intent.ACTION_DIAL)
+            callIntent.data= Uri.parse("tel:+919428907041")
+            startActivity(Intent.createChooser(callIntent,"choose dial"))
+        }
+
+        send_mail.setOnClickListener {
+
+            val email =Intent(Intent.ACTION_SEND)
+            email.type="plain/text"
+            email.putExtra(Intent.EXTRA_EMAIL, arrayOf("mpratiksha1997@gmail.com"))
+
+            email.putExtra(Intent.EXTRA_SUBJECT, "Test Our Application")
+            email.putExtra(Intent.EXTRA_TEXT,"hii this Email for Test Our Application")
+            if (email.resolveActivity(packageManager)!=null){
+                startActivity(email)
+            }
+            else{
+                Toast.makeText(this,"Mail Not send" ,Toast.LENGTH_SHORT).show()
+            }
+
+        }
+
+        launch_web.setOnClickListener {
+            val launchWeb = Intent(Intent.ACTION_VIEW, Uri.parse("https://www.google.com"))
+            if (launchWeb.resolveActivity(packageManager)!=null){
+                startActivity(launchWeb)
+            }
+            else{
+                Toast.makeText(this,"Sorry...." ,Toast.LENGTH_SHORT).show()
+            }
+        }
+
+        sms_btn.setOnClickListener {
+            val smsUri = Uri.parse("tel:+91 9428907041")
+            val data = Intent(Intent.ACTION_VIEW,smsUri)
+            data.putExtra("address","Pratiksha Di")
+            data.putExtra("sms_body","Hello Test Sms")
+            data.type = "vnd.android-dir/mms-sms"
+
+            if (data.resolveActivity(packageManager)!=null){
+                startActivity(data)
+            }
+            else{
+                Toast.makeText(this,"SMS Not send" ,Toast.LENGTH_SHORT).show()
+            }
+
+
+        }
+
+
+        next_activity.setOnClickListener {
+
+            var intent = Intent(this,MainActivity2::class.java)
+            startActivity(intent)
+        }
+
+
+
+    }
+}
